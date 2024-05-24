@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document Upload</title>
+</head>
+<body>
+  <h1>Upload Your Shop Documents</h1>
+  <form id="uploadForm">
+    <input type="file" id="fileInput" accept="application/pdf">
+    <button type="submit">Upload</button>
+  </form>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <script>
+    const supabaseUrl = 'https://bomukceijfwpwxgbpkva.supabase.co';
+    const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJvbXVrY2VpamZ3cHd4Z2Jwa3ZhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTYxMDc4NjksImV4cCI6MjAzMTY4Mzg2OX0.8-Rzt3BMmYIOEwpcP4PKGLRnVoGCPDjneN6KATI5ox0';
+
+    export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+
+
+    document.getElementById('uploadForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const file = document.getElementById('fileInput').files[0];
+      if (file) {
+        try {
+          const { data, error } = await supabase.storage.from('documents').upload(`public/${file.name}`, file);
+          if (error) {
+            alert('Error uploading file: ' + error.message);
+          } else {
+            alert('File uploaded successfully!');
+          }
+        } catch (error) {
+          alert('Error: ' + error.message);
+        }
+      } else {
+        alert('Please select a file.');
+      }
+    });
+  </script>
+</body>
+</html>
