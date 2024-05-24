@@ -30,6 +30,8 @@
             alert('Error uploading file: ' + error.message);
           } else {
             alert('File uploaded successfully!');
+            // Redirect back to the app using deep linking
+            window.location.href = 'sauvesaveurs://shopinformationscreen';
           }
         } catch (error) {
           alert('Error: ' + error.message);
